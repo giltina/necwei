@@ -18,7 +18,8 @@ class WageResource extends Resource
 {
     protected static ?string $model = Wage::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
+    protected static ?string $navigationGroup = 'Rocords Management';
 
     public static function form(Form $form): Form
     {
@@ -45,13 +46,10 @@ class WageResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('grade_id'),
-                Tables\Columns\TextColumn::make('sector_id'),
-                Tables\Columns\TextColumn::make('title'),
+                Tables\Columns\TextColumn::make('title')->searchable(),
                 Tables\Columns\TextColumn::make('effective_date')
                     ->date(),
                 Tables\Columns\TextColumn::make('created_by'),
-                Tables\Columns\TextColumn::make('updated_by'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')

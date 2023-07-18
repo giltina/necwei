@@ -16,12 +16,14 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Select;
 
 class EmployeeResource extends Resource
 {
     protected static ?string $model = Employee::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationGroup = 'Rocords Entry';
 
     public static function form(Form $form): Form
     {
@@ -64,7 +66,7 @@ class EmployeeResource extends Resource
                  })
                  ->reactive(),
 
-                Forms\Components\TextInput::make('employee_number')
+                Forms\Components\TextInput::make('employee_number')->disabled()->hiddenOn(Pages\CreateEmployee::class)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('surname')
                     ->required()
@@ -72,15 +74,17 @@ class EmployeeResource extends Resource
                 Forms\Components\TextInput::make('first_name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('dob')
+                Forms\Components\DatePicker::make('dob')->label(__('Date of Birth'))
                     ->required(),
-                Forms\Components\TextInput::make('gender')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Select::make('gender')
+                ->options([
+                    'Male' => 'Male',
+                    'Female' => 'Female',
+                ])->required(),
                 Forms\Components\TextInput::make('nationality')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('national_id')
+                Forms\Components\TextInput::make('national_id')->label(__('I.D Number'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('contribution')
@@ -88,17 +92,28 @@ class EmployeeResource extends Resource
                     ->maxLength(255),
                 Forms\Components\DatePicker::make('engagement')
                     ->required(),
-                Forms\Components\TextInput::make('contract')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Select::make('contract')
+                ->options([
+                    'Permanent' => 'Permanent',
+                    'Fixed term' => 'Fixed term',
+                    'Casual' => 'Casual',
+                    'Short Time' => 'Short Time',
+                    'Part Time' => 'Part Time',
+                ])->required(),
                 Forms\Components\TextInput::make('duration')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\DatePicker::make('end_contract')
                     ->required(),
-                Forms\Components\TextInput::make('employee_status')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Select::make('employee_status')
+                ->options([
+                    'Active' => 'Active',
+                    'Resigned' => 'Resigned',
+                    'Dismissed' => 'Dismissed',
+                    'Retired' => 'Retired',
+                    'Deceased' => 'Deceased',
+                    'Retrenched' => 'Retrenched',
+                ])->required(),
                     Forms\Components\TextInput::make('created_by')->disabled()->hiddenOn(Pages\CreateEmployee::class)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('updated_by')->disabled()->hiddenOn(Pages\CreateEmployee::class)
@@ -111,28 +126,10 @@ class EmployeeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('employer_id'),
-                Tables\Columns\TextColumn::make('job_id'),
-                Tables\Columns\TextColumn::make('grade_id'),
-                Tables\Columns\TextColumn::make('wage_id'),
-                Tables\Columns\TextColumn::make('employee_number'),
-                Tables\Columns\TextColumn::make('surname'),
-                Tables\Columns\TextColumn::make('first_name'),
-                Tables\Columns\TextColumn::make('dob')
-                    ->date(),
-                Tables\Columns\TextColumn::make('gender'),
-                Tables\Columns\TextColumn::make('nationality'),
-                Tables\Columns\TextColumn::make('national_id'),
-                Tables\Columns\TextColumn::make('contribution'),
-                Tables\Columns\TextColumn::make('engagement')
-                    ->date(),
-                Tables\Columns\TextColumn::make('contract'),
-                Tables\Columns\TextColumn::make('duration'),
-                Tables\Columns\TextColumn::make('end_contract')
-                    ->date(),
-                Tables\Columns\TextColumn::make('employee_status'),
+                Tables\Columns\TextColumn::make('employee_number')->searchable(),
+                Tables\Columns\TextColumn::make('surname')->searchable(),
+                Tables\Columns\TextColumn::make('first_name')->searchable(),
                 Tables\Columns\TextColumn::make('created_by'),
-                Tables\Columns\TextColumn::make('updated_by'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')

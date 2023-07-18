@@ -18,7 +18,8 @@ class SectorResource extends Resource
 {
     protected static ?string $model = Sector::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-server';
+    protected static ?string $navigationGroup = 'Rocords Management';
 
     public static function form(Form $form): Form
     {
@@ -41,9 +42,8 @@ class SectorResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('name')->searchable(),
                 Tables\Columns\TextColumn::make('created_by'),
-                Tables\Columns\TextColumn::make('updated_by'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')

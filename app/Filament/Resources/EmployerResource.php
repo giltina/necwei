@@ -18,7 +18,8 @@ class EmployerResource extends Resource
 {
     protected static ?string $model = Employer::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-cube';
+    protected static ?string $navigationGroup = 'Rocords Entry';
 
     public static function form(Form $form): Form
     {
@@ -37,22 +38,22 @@ class EmployerResource extends Resource
                 Forms\Components\TextInput::make('region')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('pobox_one')
+                Forms\Components\TextInput::make('pobox_one')->label(__('Postal Box Address 1'))
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('pobox_two')
+                Forms\Components\TextInput::make('pobox_two')->label(__('Postal Box Address 2'))
                     ->maxLength(255),
-                Forms\Components\TextInput::make('city_one')
+                Forms\Components\TextInput::make('city_one')->label(__('City/Town'))
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('physical_address_one')
+                Forms\Components\TextInput::make('physical_address_one')->label(__('Physical Address 1'))
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('physical_address_two')
+                Forms\Components\TextInput::make('physical_address_two')->label(__('Physical Address 2'))
                     ->maxLength(255),
-                Forms\Components\TextInput::make('physical_address_three')
+                Forms\Components\TextInput::make('physical_address_three')->label(__('Physical Address 3'))
                     ->maxLength(255),
-                Forms\Components\TextInput::make('city_two')
+                Forms\Components\TextInput::make('city_two')->label(__('City/Town'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('manager_name')
@@ -79,8 +80,12 @@ class EmployerResource extends Resource
                     ->maxLength(255),
                 Forms\Components\DatePicker::make('effective_date')
                     ->required(),
-                Forms\Components\DatePicker::make('status')
-                    ->required(),
+                    Forms\Components\Select::make('status')
+                    ->options([
+                        'Active' => 'Active',
+                        'Frozen' => 'Frozen',
+                        'Exempted' => 'Exempted',
+                    ])->required(),
                     Forms\Components\TextInput::make('created_by')->disabled()->hiddenOn(Pages\CreateEmployer::class)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('updated_by')->disabled()->hiddenOn(Pages\CreateEmployer::class)
@@ -94,31 +99,9 @@ class EmployerResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('sector_id'),
-                Tables\Columns\TextColumn::make('registration_number'),
-                Tables\Columns\TextColumn::make('institution'),
-                Tables\Columns\TextColumn::make('region'),
-                Tables\Columns\TextColumn::make('pobox_one'),
-                Tables\Columns\TextColumn::make('pobox_two'),
-                Tables\Columns\TextColumn::make('city_one'),
-                Tables\Columns\TextColumn::make('physical_address_one'),
-                Tables\Columns\TextColumn::make('physical_address_two'),
-                Tables\Columns\TextColumn::make('physical_address_three'),
-                Tables\Columns\TextColumn::make('city_two'),
-                Tables\Columns\TextColumn::make('manager_name'),
-                Tables\Columns\TextColumn::make('manager_phone'),
-                Tables\Columns\TextColumn::make('manager_cell'),
-                Tables\Columns\TextColumn::make('manager_email'),
-                Tables\Columns\TextColumn::make('employee_name'),
-                Tables\Columns\TextColumn::make('employee_phone'),
-                Tables\Columns\TextColumn::make('employee_cell'),
-                Tables\Columns\TextColumn::make('employee_email'),
-                Tables\Columns\TextColumn::make('effective_date')
-                    ->date(),
-                Tables\Columns\TextColumn::make('status')
-                    ->date(),
+                Tables\Columns\TextColumn::make('registration_number')->searchable(),
+                Tables\Columns\TextColumn::make('institution')->searchable(),
                 Tables\Columns\TextColumn::make('created_by'),
-                Tables\Columns\TextColumn::make('updated_by'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')

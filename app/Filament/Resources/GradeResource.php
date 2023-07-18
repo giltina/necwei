@@ -18,7 +18,8 @@ class GradeResource extends Resource
 {
     protected static ?string $model = Grade::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-pause';
+    protected static ?string $navigationGroup = 'Rocords Management';
 
     public static function form(Form $form): Form 
     {
@@ -47,7 +48,6 @@ class GradeResource extends Resource
                 Tables\Columns\TextColumn::make('effective_date')
                     ->date(),
                 Tables\Columns\TextColumn::make('created_by'),
-                Tables\Columns\TextColumn::make('updated_by'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
